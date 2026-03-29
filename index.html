@@ -20,902 +20,146 @@
       --white: #FFFFFF;
       --gray: #C8C0C0;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background-color: var(--black); color: var(--white); overflow-x: hidden; min-height: 100vh; }
+
+    .film-strip { width: 100%; height: 48px; background: #111; display: flex; align-items: center; overflow: hidden; position: relative; }
+    .film-strip::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0px, transparent 28px, var(--gold-dark) 28px, var(--gold-dark) 30px); opacity: .25; }
+    .film-holes { display: flex; width: 100%; }
+    .film-hole { flex: 0 0 52px; height: 28px; background: var(--black); border: 2px solid #333; border-radius: 4px; margin: 10px 8px; }
+
+    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; padding: 80px 24px; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(139,0,0,.55) 0%, transparent 70%), radial-gradient(ellipse 40% 30% at 25% 80%, rgba(80,0,0,.4) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 75% 80%, rgba(80,0,0,.4) 0%, transparent 60%), linear-gradient(180deg, #0D0000 0%, #1A0005 40%, #0D0000 100%); z-index: 0; }
+    .spotlight { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 320px; height: 90vh; background: conic-gradient(from -8deg at 50% 0%, transparent 0deg, rgba(212,175,55,.06) 8deg, rgba(212,175,55,.10) 12deg, rgba(212,175,55,.06) 16deg, transparent 24deg); z-index: 1; pointer-events: none; animation: pulse-light 4s ease-in-out infinite; }
+    @keyframes pulse-light { 0%,100%{opacity:.7} 50%{opacity:1} }
+    .grain { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: .04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 180px 180px; }
+    .hero-content { position: relative; z-index: 2; text-align: center; max-width: 860px; }
+    .org-badge { display: inline-block; border: 1px solid rgba(212,175,55,.5); color: var(--gold); font-weight: 500; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; padding: 6px 22px; border-radius: 30px; margin-bottom: 28px; background: rgba(212,175,55,.08); animation: fadeDown .8s ease both; }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 10vw, 110px); line-height: .92; letter-spacing: 4px; background: linear-gradient(160deg, #F5D060 0%, #D4AF37 45%, #9A7B1C 80%, #F5D060 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 32px rgba(212,175,55,.45)); animation: fadeDown .9s ease .1s both; margin-bottom: 8px; }
+    .hero-year { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 9vw, 96px); letter-spacing: 14px; color: var(--white); text-shadow: 0 0 40px rgba(255,255,255,.2); animation: fadeDown .9s ease .2s both; margin-bottom: 20px; }
+    .tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(16px, 2.5vw, 24px); color: var(--gold-light); letter-spacing: 6px; animation: fadeDown 1s ease .35s both; margin-bottom: 36px; }
+    .hero-divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 32px; animation: fadeDown 1s ease .45s both; }
+    .hero-divider-line { height: 1px; width: 80px; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .hero-divider-line:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+    .hero-divider-icon { color: var(--gold); font-size: 18px; }
+    .venue-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(0,0,0,.6); border: 1px solid rgba(212,175,55,.4); padding: 10px 26px; border-radius: 40px; font-size: 14px; color: var(--gray); letter-spacing: 1px; animation: fadeDown 1s ease .55s both; }
+    .venue-pill span { color: var(--gold); font-weight: 600; }
+
+    .strip-label { background: var(--gold); color: var(--black); font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 8px; text-align: center; padding: 10px 0; position: relative; }
+    .strip-label::before, .strip-label::after { content: '🎞️'; position: absolute; top: 50%; transform: translateY(-50%); font-size: 18px; }
+    .strip-label::before { left: 24px; }
+    .strip-label::after { right: 24px; }
+
+    section { padding: 80px 24px; position: relative; }
+    .section-inner { max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 56px); letter-spacing: 5px; text-align: center; background: linear-gradient(135deg, #F5D060, #D4AF37, #9A7B1C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0 auto 56px auto; position: relative; display: block; width: 100%; }
+    .section-title::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); width: 60%; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+    .schedule-section { padding: 80px 24px; background: linear-gradient(180deg, #080808, #0f0002, #080808); position: relative; overflow: hidden; }
+    .schedule-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 100%; background: radial-gradient(ellipse at top, rgba(139,0,0,.2), transparent 65%); pointer-events: none; }
+    .schedule-days { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
+    .day-block { background: rgba(10,0,0,.85); border: 1px solid rgba(212,175,55,.25); border-radius: 14px; overflow: hidden; backdrop-filter: blur(12px); transition: border-color .3s, box-shadow .3s; }
+    .day-block:hover { border-color: rgba(212,175,55,.6); box-shadow: 0 16px 48px rgba(139,0,0,.35), 0 0 24px rgba(212,175,55,.1); }
+    .day-header { background: linear-gradient(135deg, rgba(139,0,0,.95), rgba(74,0,8,.95)); padding: 16px 20px; border-bottom: 1px solid rgba(212,175,55,.3); display: flex; align-items: center; gap: 12px; }
+    .day-icon { font-size: 22px; }
+    .day-date { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--gold-light); line-height: 1.1; }
+    .day-label { font-size: 10px; color: rgba(212,175,55,.6); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+    .day-events { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .schedule-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: rgba(212,175,55,.04); border: 1px solid rgba(212,175,55,.1); border-radius: 8px; transition: background .2s, border-color .2s; }
+    .schedule-item:hover { background: rgba(212,175,55,.09); border-color: rgba(212,175,55,.28); }
+    .schedule-time { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; color: var(--gold); white-space: nowrap; min-width: 56px; line-height: 1; padding-top: 1px; }
+    .schedule-divider { width: 1px; background: rgba(212,175,55,.3); align-self: stretch; flex-shrink: 0; }
+    .schedule-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 2px; }
+    .schedule-type { font-size: 10px; color: rgba(212,175,55,.55); letter-spacing: 1px; text-transform: uppercase; }
+    .schedule-emoji { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+    .onspot-note { margin: 0 20px 16px; display: flex; align-items: center; gap: 8px; background: rgba(212,175,55,.07); border: 1px dashed rgba(212,175,55,.35); border-radius: 6px; padding: 8px 12px; font-size: 11px; color: var(--gold-light); letter-spacing: .5px; }
+    .onspot-note span { font-size: 14px; }
+    .highlight-item { border-color: rgba(212,175,55,.3) !important; background: rgba(212,175,55,.07) !important; }
+    .highlight-item .schedule-time { color: var(--gold-light); }
+    .highlight-item .schedule-name { color: var(--gold-light); }
+
+    .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 28px; }
+    .event-card { background: var(--card-bg); border: 1px solid rgba(212,175,55,.25); border-radius: 12px; overflow: hidden; position: relative; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; backdrop-filter: blur(12px); }
+    .event-card:hover { transform: translateY(-6px); border-color: rgba(212,175,55,.7); box-shadow: 0 20px 60px rgba(139,0,0,.4), 0 0 30px rgba(212,175,55,.15); }
+    .event-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top left, rgba(212,175,55,.08) 0%, transparent 60%); pointer-events: none; }
+    .card-header { background: linear-gradient(135deg, rgba(139,0,0,.9), rgba(74,0,8,.9)); padding: 14px 18px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(212,175,55,.3); flex-wrap: wrap; }
+    .card-num { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 2px; color: rgba(212,175,55,.6); min-width: 28px; }
+    .card-icon { font-size: 26px; line-height: 1; filter: drop-shadow(0 0 8px rgba(255,200,0,.4)); }
+    .card-meta { flex: 1; min-width: 0; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--gold-light); line-height: 1.2; }
+    .card-subtitle { font-size: 10px; color: rgba(212,175,55,.6); font-weight: 400; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+    .card-time-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(212,175,55,.14); border: 1px solid rgba(212,175,55,.35); border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 600; color: var(--gold-light); letter-spacing: .5px; white-space: nowrap; flex-shrink: 0; }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; animation: blink 2s ease infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .card-body { padding: 18px 20px; }
+    .card-body ul { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
+    .card-body ul li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--gray); line-height: 1.5; font-weight: 300; }
+    .card-body ul li::before { content: '◆'; color: var(--gold); font-size: 7px; margin-top: 5px; flex-shrink: 0; }
+    .register-btn { display: block; text-align: center; background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark)); background-size: 200% auto; color: var(--black); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; padding: 11px 20px; border-radius: 6px; transition: background-position .4s ease, box-shadow .3s ease; }
+    .register-btn:hover { background-position: right center; box-shadow: 0 0 24px rgba(212,175,55,.5); }
+
+    .fun-section-inner { max-width: 960px; margin: 0 auto; }
+    .fun-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+    .fun-card { background: rgba(10,0,0,.75); border: 1px solid rgba(212,175,55,.2); border-radius: 10px; padding: 26px 20px; text-align: center; transition: transform .3s, border-color .3s; backdrop-filter: blur(8px); }
+    .fun-card:hover { transform: translateY(-4px); border-color: rgba(212,175,55,.55); }
+    .fun-icon { font-size: 34px; margin-bottom: 10px; display: block; }
+    .fun-name { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--gold-light); font-weight: 700; margin-bottom: 5px; }
+    .fun-time { font-size: 12px; color: var(--gold); font-weight: 600; margin-bottom: 2px; letter-spacing: .5px; }
+    .fun-date { font-size: 11px; color: rgba(212,175,55,.5); margin-bottom: 6px; }
+    .fun-desc { font-size: 11px; color: var(--gray); font-weight: 300; }
+    .onspot-banner { background: linear-gradient(135deg, rgba(139,0,0,.35), rgba(212,175,55,.07)); border: 1px solid rgba(212,175,55,.4); border-radius: 12px; padding: 20px 28px; display: flex; align-items: center; gap: 18px; backdrop-filter: blur(8px); }
+    .onspot-banner-icon { font-size: 36px; flex-shrink: 0; }
+    .onspot-banner-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--gold-light); margin-bottom: 5px; }
+    .onspot-banner-desc { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.6; }
+    .onspot-banner-desc strong { color: var(--gold); font-weight: 600; }
+
+    .contact-section { background: linear-gradient(180deg, var(--black), #150000, var(--black)); padding: 80px 24px; text-align: center; position: relative; overflow: hidden; }
+    .contact-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 400px; height: 100%; background: radial-gradient(ellipse at top, rgba(139,0,0,.3), transparent 70%); pointer-events: none; }
+    .contact-cards { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 40px; }
+    .contact-card { background: rgba(10,0,0,.8); border: 1px solid rgba(212,175,55,.3); border-radius: 10px; padding: 22px 32px; min-width: 220px; transition: border-color .3s; backdrop-filter: blur(10px); }
+    .contact-card:hover { border-color: var(--gold); }
+    .contact-name { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold-light); font-weight: 700; margin-bottom: 6px; }
+    .contact-phone { font-size: 18px; color: var(--white); font-weight: 500; letter-spacing: 1px; }
 
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    .footer { background: var(--gold); color: var(--black); text-align: center; padding: 20px; font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 6px; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--black);
-      color: var(--white);
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+    .marquee-wrap { overflow: hidden; background: #0D0000; border-top: 1px solid rgba(212,175,55,.2); border-bottom: 1px solid rgba(212,175,55,.2); padding: 6px 0; }
+    .marquee { display: flex; animation: marquee 20s linear infinite; white-space: nowrap; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 4px; color: rgba(212,175,55,.5); padding: 0 28px; display: inline-block; }
+    .marquee-item span { color: var(--crimson); }
 
-    /* ── FILM STRIP ── */
-    .film-strip {
-      width: 100%;
-      height: 48px;
-      background: #111;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .film-strip::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(90deg, transparent 0px, transparent 28px, var(--gold-dark) 28px, var(--gold-dark) 30px);
-      opacity: .25;
-    }
-
-    .film-holes {
-      display: flex;
-      width: 100%;
-    }
-
-    .film-hole {
-      flex: 0 0 52px;
-      height: 28px;
-      background: var(--black);
-      border: 2px solid #333;
-      border-radius: 4px;
-      margin: 10px 8px;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 80px 24px;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(139, 0, 0, .55) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 30% at 25% 80%, rgba(80, 0, 0, .4) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 75% 80%, rgba(80, 0, 0, .4) 0%, transparent 60%),
-        linear-gradient(180deg, #0D0000 0%, #1A0005 40%, #0D0000 100%);
-      z-index: 0;
-    }
-
-    .spotlight {
-      position: absolute;
-      top: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 320px;
-      height: 90vh;
-      background: conic-gradient(from -8deg at 50% 0%, transparent 0deg, rgba(212, 175, 55, .06) 8deg, rgba(212, 175, 55, .10) 12deg, rgba(212, 175, 55, .06) 16deg, transparent 24deg);
-      z-index: 1;
-      pointer-events: none;
-      animation: pulse-light 4s ease-in-out infinite;
-    }
-
-    @keyframes pulse-light {
-
-      0%,
-      100% {
-        opacity: .7
-      }
-
-      50% {
-        opacity: 1
-      }
-    }
-
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      pointer-events: none;
-      opacity: .04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      max-width: 860px;
-    }
-
-    .org-badge {
-      display: inline-block;
-      border: 1px solid rgba(212, 175, 55, .5);
-      color: var(--gold);
-      font-weight: 500;
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      padding: 6px 22px;
-      border-radius: 30px;
-      margin-bottom: 28px;
-      background: rgba(212, 175, 55, .08);
-      animation: fadeDown .8s ease both;
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(52px, 10vw, 110px);
-      line-height: .92;
-      letter-spacing: 4px;
-      background: linear-gradient(160deg, #F5D060 0%, #D4AF37 45%, #9A7B1C 80%, #F5D060 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 32px rgba(212, 175, 55, .45));
-      animation: fadeDown .9s ease .1s both;
-      margin-bottom: 8px;
-    }
-
-    .hero-year {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(48px, 9vw, 96px);
-      letter-spacing: 14px;
-      color: var(--white);
-      text-shadow: 0 0 40px rgba(255, 255, 255, .2);
-      animation: fadeDown .9s ease .2s both;
-      margin-bottom: 20px;
-    }
-
-    .tagline {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(16px, 2.5vw, 24px);
-      color: var(--gold-light);
-      letter-spacing: 6px;
-      animation: fadeDown 1s ease .35s both;
-      margin-bottom: 36px;
-    }
-
-    .hero-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 32px;
-      animation: fadeDown 1s ease .45s both;
-    }
-
-    .hero-divider-line {
-      height: 1px;
-      width: 80px;
-      background: linear-gradient(90deg, transparent, var(--gold));
-    }
-
-    .hero-divider-line:last-child {
-      background: linear-gradient(90deg, var(--gold), transparent);
-    }
-
-    .hero-divider-icon {
-      color: var(--gold);
-      font-size: 18px;
-    }
-
-    .venue-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(0, 0, 0, .6);
-      border: 1px solid rgba(212, 175, 55, .4);
-      padding: 10px 26px;
-      border-radius: 40px;
-      font-size: 14px;
-      color: var(--gray);
-      letter-spacing: 1px;
-      animation: fadeDown 1s ease .55s both;
-    }
-
-    .venue-pill span {
-      color: var(--gold);
-      font-weight: 600;
-    }
-
-    /* ── STRIP LABEL ── */
-    .strip-label {
-      background: var(--gold);
-      color: var(--black);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 8px;
-      text-align: center;
-      padding: 10px 0;
-      position: relative;
-    }
-
-    .strip-label::before,
-    .strip-label::after {
-      content: '🎞️';
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 18px;
-    }
-
-    .strip-label::before {
-      left: 24px;
-    }
-
-    .strip-label::after {
-      right: 24px;
-    }
-
-    /* ── SECTION ── */
-    section {
-      padding: 80px 24px;
-      position: relative;
-    }
-
-    .section-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(36px, 5vw, 56px);
-      letter-spacing: 5px;
-      text-align: center;
-      background: linear-gradient(135deg, #F5D060, #D4AF37, #9A7B1C);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 0 auto 56px auto;
-      position: relative;
-      display: block;
-      width: 100%;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-
-    /* ── SCHEDULE SECTION ── */
-    .schedule-section {
-      padding: 80px 24px;
-      background: linear-gradient(180deg, #080808, #0f0002, #080808);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .schedule-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 100%;
-      background: radial-gradient(ellipse at top, rgba(139, 0, 0, .2), transparent 65%);
-      pointer-events: none;
-    }
-
-    .schedule-days {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .day-block {
-      background: rgba(10, 0, 0, .85);
-      border: 1px solid rgba(212, 175, 55, .25);
-      border-radius: 14px;
-      overflow: hidden;
-      backdrop-filter: blur(12px);
-      transition: border-color .3s, box-shadow .3s;
-    }
-
-    .day-block:hover {
-      border-color: rgba(212, 175, 55, .6);
-      box-shadow: 0 16px 48px rgba(139, 0, 0, .35), 0 0 24px rgba(212, 175, 55, .1);
-    }
-
-    .day-header {
-      background: linear-gradient(135deg, rgba(139, 0, 0, .95), rgba(74, 0, 8, .95));
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(212, 175, 55, .3);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .day-icon {
-      font-size: 22px;
-    }
-
-    .day-date {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      letter-spacing: 2px;
-      color: var(--gold-light);
-      line-height: 1.1;
-    }
-
-    .day-label {
-      font-size: 10px;
-      color: rgba(212, 175, 55, .6);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    .day-events {
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .schedule-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px 14px;
-      background: rgba(212, 175, 55, .04);
-      border: 1px solid rgba(212, 175, 55, .1);
-      border-radius: 8px;
-      transition: background .2s, border-color .2s;
-    }
-
-    .schedule-item:hover {
-      background: rgba(212, 175, 55, .09);
-      border-color: rgba(212, 175, 55, .28);
-    }
-
-    .schedule-time {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 1px;
-      color: var(--gold);
-      white-space: nowrap;
-      min-width: 56px;
-      line-height: 1;
-      padding-top: 1px;
-    }
-
-    .schedule-divider {
-      width: 1px;
-      background: rgba(212, 175, 55, .3);
-      align-self: stretch;
-      flex-shrink: 0;
-    }
-
-    .schedule-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.3;
-      margin-bottom: 2px;
-    }
-
-    .schedule-type {
-      font-size: 10px;
-      color: rgba(212, 175, 55, .55);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .schedule-emoji {
-      font-size: 16px;
-      margin-top: 1px;
-      flex-shrink: 0;
-    }
-
-    .onspot-note {
-      margin: 0 20px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(212, 175, 55, .07);
-      border: 1px dashed rgba(212, 175, 55, .35);
-      border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 11px;
-      color: var(--gold-light);
-      letter-spacing: .5px;
-    }
-
-    .onspot-note span {
-      font-size: 14px;
-    }
-
-    .highlight-item {
-      border-color: rgba(212, 175, 55, .3) !important;
-      background: rgba(212, 175, 55, .07) !important;
-    }
-
-    .highlight-item .schedule-time {
-      color: var(--gold-light);
-    }
-
-    .highlight-item .schedule-name {
-      color: var(--gold-light);
-    }
-
-    /* ── EVENT CARDS ── */
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 28px;
-    }
-
-    .event-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(212, 175, 55, .25);
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-      backdrop-filter: blur(12px);
-    }
-
-    .event-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(212, 175, 55, .7);
-      box-shadow: 0 20px 60px rgba(139, 0, 0, .4), 0 0 30px rgba(212, 175, 55, .15);
-    }
-
-    .event-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at top left, rgba(212, 175, 55, .08) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .card-header {
-      background: linear-gradient(135deg, rgba(139, 0, 0, .9), rgba(74, 0, 8, .9));
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid rgba(212, 175, 55, .3);
-      flex-wrap: wrap;
-    }
-
-    .card-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 13px;
-      letter-spacing: 2px;
-      color: rgba(212, 175, 55, .6);
-      min-width: 28px;
-    }
-
-    .card-icon {
-      font-size: 26px;
-      line-height: 1;
-      filter: drop-shadow(0 0 8px rgba(255, 200, 0, .4));
-    }
-
-    .card-meta {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--gold-light);
-      line-height: 1.2;
-    }
-
-    .card-subtitle {
-      font-size: 10px;
-      color: rgba(212, 175, 55, .6);
-      font-weight: 400;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    .card-time-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(212, 175, 55, .14);
-      border: 1px solid rgba(212, 175, 55, .35);
-      border-radius: 20px;
-      padding: 3px 10px;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--gold-light);
-      letter-spacing: .5px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .badge-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-      animation: blink 2s ease infinite;
-    }
-
-    @keyframes blink {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: .3
-      }
-    }
-
-    .card-body {
-      padding: 18px 20px;
-    }
-
-    .card-body ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin-bottom: 18px;
-    }
-
-    .card-body ul li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 13px;
-      color: var(--gray);
-      line-height: 1.5;
-      font-weight: 300;
-    }
-
-    .card-body ul li::before {
-      content: '◆';
-      color: var(--gold);
-      font-size: 7px;
-      margin-top: 5px;
-      flex-shrink: 0;
-    }
-
-    .register-btn {
-      display: block;
-      text-align: center;
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
-      background-size: 200% auto;
-      color: var(--black);
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 11px 20px;
-      border-radius: 6px;
-      transition: background-position .4s ease, box-shadow .3s ease;
-    }
-
-    .register-btn:hover {
-      background-position: right center;
-      box-shadow: 0 0 24px rgba(212, 175, 55, .5);
-    }
-
-    /* ── FUN EVENTS ── */
-    .fun-section-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .fun-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    .fun-card {
-      background: rgba(10, 0, 0, .75);
-      border: 1px solid rgba(212, 175, 55, .2);
-      border-radius: 10px;
-      padding: 26px 20px;
-      text-align: center;
-      transition: transform .3s, border-color .3s;
-      backdrop-filter: blur(8px);
-    }
-
-    .fun-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(212, 175, 55, .55);
-    }
-
-    .fun-icon {
-      font-size: 34px;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .fun-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 14px;
-      color: var(--gold-light);
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .fun-time {
-      font-size: 12px;
-      color: var(--gold);
-      font-weight: 600;
-      margin-bottom: 2px;
-      letter-spacing: .5px;
-    }
-
-    .fun-date {
-      font-size: 11px;
-      color: rgba(212, 175, 55, .5);
-      margin-bottom: 6px;
-    }
-
-    .fun-desc {
-      font-size: 11px;
-      color: var(--gray);
-      font-weight: 300;
-    }
-
-    .onspot-banner {
-      background: linear-gradient(135deg, rgba(139, 0, 0, .35), rgba(212, 175, 55, .07));
-      border: 1px solid rgba(212, 175, 55, .4);
-      border-radius: 12px;
-      padding: 20px 28px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      backdrop-filter: blur(8px);
-    }
-
-    .onspot-banner-icon {
-      font-size: 36px;
-      flex-shrink: 0;
-    }
-
-    .onspot-banner-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 3px;
-      color: var(--gold-light);
-      margin-bottom: 5px;
-    }
-
-    .onspot-banner-desc {
-      font-size: 13px;
-      color: var(--gray);
-      font-weight: 300;
-      line-height: 1.6;
-    }
-
-    .onspot-banner-desc strong {
-      color: var(--gold);
-      font-weight: 600;
-    }
-
-    /* ── CONTACT ── */
-    .contact-section {
-      background: linear-gradient(180deg, var(--black), #150000, var(--black));
-      padding: 80px 24px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contact-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 400px;
-      height: 100%;
-      background: radial-gradient(ellipse at top, rgba(139, 0, 0, .3), transparent 70%);
-      pointer-events: none;
-    }
-
-    .contact-cards {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-
-    .contact-card {
-      background: rgba(10, 0, 0, .8);
-      border: 1px solid rgba(212, 175, 55, .3);
-      border-radius: 10px;
-      padding: 22px 32px;
-      min-width: 220px;
-      transition: border-color .3s;
-      backdrop-filter: blur(10px);
-    }
-
-    .contact-card:hover {
-      border-color: var(--gold);
-    }
-
-    .contact-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      color: var(--gold-light);
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .contact-phone {
-      font-size: 18px;
-      color: var(--white);
-      font-weight: 500;
-      letter-spacing: 1px;
-    }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: var(--gold);
-      color: var(--black);
-      text-align: center;
-      padding: 20px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 6px;
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── MARQUEE ── */
-    .marquee-wrap {
-      overflow: hidden;
-      background: #0D0000;
-      border-top: 1px solid rgba(212, 175, 55, .2);
-      border-bottom: 1px solid rgba(212, 175, 55, .2);
-      padding: 6px 0;
-    }
-
-    .marquee {
-      display: flex;
-      animation: marquee 20s linear infinite;
-      white-space: nowrap;
-    }
-
-    @keyframes marquee {
-      from {
-        transform: translateX(0)
-      }
-
-      to {
-        transform: translateX(-50%)
-      }
-    }
-
-    .marquee-item {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 13px;
-      letter-spacing: 4px;
-      color: rgba(212, 175, 55, .5);
-      padding: 0 28px;
-      display: inline-block;
-    }
-
-    .marquee-item span {
-      color: var(--crimson);
-    }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
-      .schedule-days {
-        grid-template-columns: 1fr;
-      }
-
-      .events-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .fun-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .onspot-banner {
-        flex-direction: column;
-        text-align: center;
-      }
+      .schedule-days { grid-template-columns: 1fr; }
+      .events-grid { grid-template-columns: 1fr; }
+      .fun-grid { grid-template-columns: 1fr; }
+      .onspot-banner { flex-direction: column; text-align: center; }
     }
-
     @media (max-width: 640px) {
-      .hero-title {
-        font-size: 52px;
-      }
-
-      .hero-year {
-        font-size: 48px;
-      }
+      .hero-title { font-size: 52px; }
+      .hero-year { font-size: 48px; }
     }
   </style>
 </head>
 
 <body>
-
   <div class="grain"></div>
 
   <!-- TOP FILM STRIP -->
   <div class="film-strip">
     <div class="film-holes">
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div>
     </div>
   </div>
 
@@ -925,9 +169,7 @@
     <div class="spotlight"></div>
     <div class="hero-content">
       <div class="org-badge">🎬 Information Technology Student Association (ITSA)</div>
-      <div class="hero-title">ITSA <span
-          style="color:#8B0000; -webkit-text-fill-color:#8B0000; filter:drop-shadow(0 0 18px rgba(139,0,0,.8));">×</span>
-        Serendipity</div>
+      <div class="hero-title">ITSA <span style="color:#8B0000; -webkit-text-fill-color:#8B0000; filter:drop-shadow(0 0 18px rgba(139,0,0,.8));">×</span> Serendipity</div>
       <div class="hero-year">2 0 2 6</div>
       <div class="tagline">✦ Lights &nbsp;·&nbsp; Camera &nbsp;·&nbsp; Action ✦</div>
       <div class="hero-divider">
@@ -959,13 +201,12 @@
     </div>
   </div>
 
-  <!-- ══ SCHEDULE ══ -->
+  <!-- SCHEDULE -->
   <div class="strip-label">📅 Event Schedule</div>
 
   <div class="schedule-section">
     <div class="section-inner">
       <div class="section-title">🎬 Day-Wise Schedule</div>
-
       <div class="schedule-days">
 
         <!-- DAY 1 — 9 April -->
@@ -1041,10 +282,19 @@
             <div class="day-icon">🎤</div>
             <div>
               <div class="day-date">10 April 2026</div>
-              <div class="day-label">Day 2 — Quiz & Fun Games</div>
+              <div class="day-label">Day 2 — Quiz, BGMI Finals & Fun</div>
             </div>
           </div>
           <div class="day-events">
+            <div class="schedule-item">
+              <div class="schedule-time">10:00</div>
+              <div class="schedule-divider"></div>
+              <div>
+                <div class="schedule-name">Battleground Blockbuster Finals</div>
+                <div class="schedule-type">BGMI Finals</div>
+              </div>
+              <div class="schedule-emoji">🏆</div>
+            </div>
             <div class="schedule-item">
               <div class="schedule-time">11:00</div>
               <div class="schedule-divider"></div>
@@ -1128,7 +378,7 @@
   <!-- EVENTS STRIP -->
   <div class="strip-label">EVENTS LINED UP</div>
 
-  <!-- ══ MAIN EVENTS ══ -->
+  <!-- MAIN EVENTS -->
   <section style="background: linear-gradient(180deg, #080808, #110002, #080808);">
     <div class="section-inner">
       <div class="section-title">🎭 Main Events</div>
@@ -1143,9 +393,7 @@
               <div class="card-title">BGMI Tournament</div>
               <div class="card-subtitle">Battlegrounds Mobile India</div>
             </div>
-            <div class="card-time-badge">
-              <div class="badge-dot"></div>9 Apr · 1:30 PM
-            </div>
+            <div class="card-time-badge"><div class="badge-dot"></div>9 Apr · 1:30 PM</div>
           </div>
           <div class="card-body">
             <ul>
@@ -1168,9 +416,7 @@
               <div class="card-title">Prompt Tamasha</div>
               <div class="card-subtitle">AI Generated Animation</div>
             </div>
-            <div class="card-time-badge">
-              <div class="badge-dot"></div>Online Submit
-            </div>
+            <div class="card-time-badge"><div class="badge-dot"></div>Online Submit</div>
           </div>
           <div class="card-body">
             <ul>
@@ -1192,9 +438,7 @@
               <div class="card-title">Andhadhun Art</div>
               <div class="card-subtitle">Blind Painting</div>
             </div>
-            <div class="card-time-badge">
-              <div class="badge-dot"></div>9 Apr · 10:30 AM
-            </div>
+            <div class="card-time-badge"><div class="badge-dot"></div>9 Apr · 10:30 AM</div>
           </div>
           <div class="card-body">
             <ul>
@@ -1216,9 +460,7 @@
               <div class="card-title">Kaabil Coding</div>
               <div class="card-subtitle">Blind Code Challenge</div>
             </div>
-            <div class="card-time-badge">
-              <div class="badge-dot"></div>9 Apr · 3:00 PM
-            </div>
+            <div class="card-time-badge"><div class="badge-dot"></div>9 Apr · 3:00 PM</div>
           </div>
           <div class="card-body">
             <ul>
@@ -1240,9 +482,7 @@
               <div class="card-title">Rang De Rangoli</div>
               <div class="card-subtitle">Rangoli Competition</div>
             </div>
-            <div class="card-time-badge">
-              <div class="badge-dot"></div>9 Apr · 9:30 AM
-            </div>
+            <div class="card-time-badge"><div class="badge-dot"></div>9 Apr · 9:30 AM</div>
           </div>
           <div class="card-body">
             <ul>
@@ -1264,9 +504,7 @@
               <div class="card-title">Kaun Banega Cinepati</div>
               <div class="card-subtitle">Bollywood Quiz Competition</div>
             </div>
-            <div class="card-time-badge">
-              <div class="badge-dot"></div>10 Apr · 11:00 AM
-            </div>
+            <div class="card-time-badge"><div class="badge-dot"></div>10 Apr · 11:00 AM</div>
           </div>
           <div class="card-body">
             <ul>
@@ -1286,16 +524,15 @@
   <!-- FUN STRIP -->
   <div class="strip-label" style="background: var(--crimson); color: var(--gold);">FUN EVENTS</div>
 
-  <!-- ══ FUN EVENTS ══ -->
+  <!-- FUN EVENTS -->
   <section style="background: linear-gradient(180deg, #0D0000, #080808);">
     <div class="fun-section-inner">
       <div class="section-title">🎉 Fun Events</div>
-
       <div class="fun-grid fade-in">
         <div class="fun-card">
           <span class="fun-icon">🧠</span>
           <div class="fun-name">Dimag Ka Khel</div>
-          <div class="fun-time">⏰ 2:00 AM</div>
+          <div class="fun-time">⏰ 2:00 PM</div>
           <div class="fun-date">📅 9 April 2026</div>
           <div class="fun-desc">Memory Games</div>
         </div>
@@ -1322,7 +559,6 @@
         </div>
       </div>
 
-      <!-- On-Spot Banner -->
       <div class="onspot-banner fade-in">
         <div class="onspot-banner-icon">⚡</div>
         <div>
@@ -1334,7 +570,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -1360,26 +595,13 @@
   <!-- BOTTOM FILM STRIP -->
   <div class="film-strip">
     <div class="film-holes">
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
-      <div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div>
     </div>
   </div>
 
@@ -1397,5 +619,4 @@
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
-
 </html>
